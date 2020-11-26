@@ -1,26 +1,24 @@
 import { Subject } from 'rxjs'
-import CanvasData from './CanvasData'
-import drawCanvasData from './drawCanvasData'
 import EditorAction from './EditorAction'
-import editorReducer from './editorStateReducer'
+import EditorEvent from './EditorEvent'
 import EditorState from './EditorState'
-
-const BLACK = new Uint8ClampedArray([0, 0, 0, 255])
+import editorEventReducer from './editorEventReducer'
+import editorReducer from './editorStateReducer'
 
 const initialState: EditorState = {
     isDrawing: false,
-    color: BLACK,
+    stroke: '#000',
   }
 
 class EditorController {
   private state: EditorState = initialState
 
   public state$: Subject<EditorState>
-  public canvasData$: Subject<CanvasData>
+  public editorEvent$: Subject<EditorEvent>
 
   constructor() {
     this.state$ = new Subject<EditorState>()
-    this.canvasData$ = new Subject<CanvasData>()
+    this.editorEvent$ = new Subject<EditorEvent>()
     this.initialize()
   }
 
@@ -31,15 +29,15 @@ class EditorController {
   public dispatch = (action: EditorAction) => {
     const nextState = editorReducer(this.state, action)
     // Can It combine multiple CanvasData? (i. e. Continuos line drawing action)
-    const canvasData = drawCanvasData(this.state, action)
+    const nextEditorEvent = editorEventReducer(this.state, action)
 
     if (nextState !== this.state) {
       this.state$.next(nextState)
       this.state = nextState
     }
 
-    if (canvasData) {
-      this.canvasData$.next(canvasData)
+    if (nextEditorEvent) {
+      this.editorEvent$.next(nextEditorEvent)
     }
   }
 }

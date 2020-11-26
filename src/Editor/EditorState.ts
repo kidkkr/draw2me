@@ -1,6 +1,6 @@
 interface EditorState {
   isDrawing: boolean
-  color: Uint8ClampedArray
+  stroke: string
 }
 
 export default EditorState

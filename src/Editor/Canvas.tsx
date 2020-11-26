@@ -1,54 +1,41 @@
 import React, { useEffect, useRef } from 'react'
-import { NextObserver, Observable, Observer } from 'rxjs'
-import CanvasObservable from './CanvasObservable'
+import { Observable, Observer } from 'rxjs'
 import CanvasEvent from './CanvasEvent'
-import CanvasData from './CanvasData'
+import CanvasEventObservable from './CanvasEventObservable'
+import EditorEvent from './EditorEvent'
+import EditorEventObserver from './EditorEventObserver'
 
 interface CanvasProps {
   width: number
   height: number
-  observer?: Observer<CanvasEvent> 
-  data$?: Observable<CanvasData>
+  canvasEventObserver?: Observer<CanvasEvent> 
+  editorEvent$?: Observable<EditorEvent>
 }
 
-const createDataObserver = (canvas: HTMLCanvasElement): NextObserver<CanvasData> => {
-  const context = canvas.getContext('2d')
-  if (!context) return {
-    next: () => {}
-  }
-
-  return {
-    next: e => {
-      const imagedata = new ImageData(e.data, e.width, e.height)
-      context?.putImageData(imagedata, e.dx, e.dy)
-    }
-  }
-}
-
-const Canvas = ({ width, height, observer, data$ }: CanvasProps) => {
+const Canvas = ({ width, height, canvasEventObserver, editorEvent$ }: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     if (!canvasRef.current) return
-    console.log({ observer, data$ })
     const canvas = canvasRef.current
 
-    const canvasSubscription = (() => {
-      if (!observer) return
-      const canvas$ = new CanvasObservable(canvas)
-      return canvas$.subscribe(observer)
+    // Push mouse events to mouseEventObserver
+    const canvasEventSubscription = (() => {
+      if (!canvasEventObserver) return
+      const canvasEvent$ = new CanvasEventObservable(canvas)
+      return canvasEvent$.subscribe(canvasEventObserver)
     })()
 
-    // The canvas element will draw from data subscribed
-    const dataSubscription = (() => {
-      if (!data$) return
-      const dataObserver = createDataObserver(canvas)
-      return data$.subscribe(dataObserver)
+    // Subscribe events from editorEvent$ and draw or do something
+    const editorEventSubscription = (() => {
+      if (!editorEvent$) return
+      const editorEventObserver = new EditorEventObserver(canvas)
+      return editorEvent$.subscribe(editorEventObserver)
     })()
 
     return () => {
-      canvasSubscription?.unsubscribe()
-      dataSubscription?.unsubscribe()
+      canvasEventSubscription?.unsubscribe()
+      editorEventSubscription?.unsubscribe()
     }
   }, [])
 
