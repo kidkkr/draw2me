@@ -35,6 +35,7 @@ const Editor = ({
   const colorButtons = useMemo(() => 
     COLORS.map((color) =>
       <button
+        key={color}
         style={{
           backgroundColor: color,
           width: 50,
@@ -45,11 +46,14 @@ const Editor = ({
       />
     ), [createHandleColorButtonClick])
 
-
   return (
     <div>
       <div>
         {colorButtons}
+      </div>
+      <div>
+        <button onClick={() => controller.dispatch({ type: EditorActionType.Undo })}>Undo</button>
+        <button onClick={() => controller.dispatch({ type: EditorActionType.Redo })}>Redo</button>
       </div>
       <Canvas
         width={canvasWidth}

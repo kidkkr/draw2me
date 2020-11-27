@@ -1,5 +1,8 @@
 enum EditorEventType {
-  Draw = 'draw'
+  Draw = 'Draw',
+  DrawEnd = 'DrawEnd',
+  Undo = 'Undo',
+  Redo = 'Redo'
 }
 
 export default EditorEventType

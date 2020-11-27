@@ -9,6 +9,8 @@ const editorStateReducer = produce((draft: EditorState, action: EditorAction) =>
       draft.isDrawing = true
       return
 
+    case EditorActionType.Undo:
+    case EditorActionType.Redo:
     case EditorActionType.MouseUp:
       draft.isDrawing = false
       return

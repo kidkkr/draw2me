@@ -21,10 +21,15 @@ interface SetColorEditorAction extends BaseAction<EditorActionType.SetStroke> {
   stroke: string
 }
 
+interface UndoEditorAction extends BaseAction<EditorActionType.Undo> {}
+interface RedoEditorAction extends BaseAction<EditorActionType.Redo> {}
+
 type EditorAction =
   MouseMoveEditorAction |
   MouseDownEditorAction |
   MouseUpEditorAction |
-  SetColorEditorAction
+  SetColorEditorAction |
+  UndoEditorAction |
+  RedoEditorAction
 
 export default EditorAction
