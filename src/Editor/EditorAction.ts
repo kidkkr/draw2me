@@ -12,12 +12,19 @@ interface BaseMouseAction<T extends EditorActionType> extends BaseAction<T> {
 }
 
 interface MouseMoveEditorAction extends BaseMouseAction<EditorActionType.MouseMove> {}
+
 interface MouseDownEditorAction extends BaseMouseAction<EditorActionType.MouseDown> {}
+
 interface MouseUpEditorAction extends BaseMouseAction<EditorActionType.MouseUp> {}
+
+interface SetColorEditorAction extends BaseAction<EditorActionType.SetStroke> {
+  stroke: string
+}
 
 type EditorAction =
   MouseMoveEditorAction |
   MouseDownEditorAction |
-  MouseUpEditorAction
+  MouseUpEditorAction |
+  SetColorEditorAction
 
 export default EditorAction

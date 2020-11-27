@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { Observer } from 'rxjs'
 import Canvas from './Canvas'
 import CanvasEvent from './CanvasEvent'
@@ -10,6 +10,8 @@ interface EditorProps {
   canvasWidth?: number
   canvasHeight?: number
 }
+
+const COLORS = ['black', 'red', 'green', 'blue']
 
 const Editor = ({
   canvasWidth = 350,
@@ -23,14 +25,39 @@ const Editor = ({
   const canvasEventObserver = useMemo<Observer<CanvasEvent>>(() =>
     new CanvasEventObserver(controller), [controller])
 
+  const createHandleColorButtonClick = useCallback((color: string) => () => {
+    controller.dispatch({
+      type: EditorActionType.SetStroke,
+      stroke: color,
+    })
+  }, [controller])
+
+  const colorButtons = useMemo(() => 
+    COLORS.map((color) =>
+      <button
+        style={{
+          backgroundColor: color,
+          width: 50,
+          height: 50,
+          borderRadius: '50%',
+        }}
+        onClick={createHandleColorButtonClick(color)}
+      />
+    ), [createHandleColorButtonClick])
+
 
   return (
-    <Canvas
-      width={canvasWidth}
-      height={canvasHeight}
-      canvasEventObserver={canvasEventObserver}
-      editorEvent$={controller.editorEvent$}
-    />
+    <div>
+      <div>
+        {colorButtons}
+      </div>
+      <Canvas
+        width={canvasWidth}
+        height={canvasHeight}
+        canvasEventObserver={canvasEventObserver}
+        editorEvent$={controller.editorEvent$}
+      />
+    </div>
   )
 }
 

@@ -13,6 +13,10 @@ const editorStateReducer = produce((draft: EditorState, action: EditorAction) =>
       draft.isDrawing = false
       return
 
+    case EditorActionType.SetStroke:
+      draft.stroke = action.stroke
+      return
+
     default:
       return
   }
