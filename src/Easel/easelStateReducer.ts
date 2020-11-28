@@ -9,8 +9,6 @@ const easelStateReducer = produce((draft: EaselState, action: EaselAction) => {
       draft.isDrawing = true
       return
 
-    case EaselActionType.Undo:
-    case EaselActionType.Redo:
     case EaselActionType.MouseUp:
       draft.isDrawing = false
       return
