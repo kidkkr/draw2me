@@ -1,8 +1,8 @@
 import { NextObserver } from 'rxjs'
-import EditorEvent from './EditorEvent'
-import EditorEventType from './EditorEventType'
+import EaselEvent from './EaselEvent'
+import EaselEventType from './EaselEventType'
 
-export default class EditorEventObserver implements NextObserver<EditorEvent> {
+export default class EaselEventObserver implements NextObserver<EaselEvent> {
   canvas: HTMLCanvasElement
   undoStack: Blob[]
   redoStack: Blob[]
@@ -33,12 +33,12 @@ export default class EditorEventObserver implements NextObserver<EditorEvent> {
 
   }
 
-  next = (e: EditorEvent) => {
+  next = (e: EaselEvent) => {
     const context = this.canvas.getContext('2d')
     if (!context) return
 
     switch (e.type) {
-      case EditorEventType.Draw: {
+      case EaselEventType.Draw: {
         const path = new Path2D(e.path)
         context.beginPath()
         context.strokeStyle = e.stroke
@@ -46,7 +46,7 @@ export default class EditorEventObserver implements NextObserver<EditorEvent> {
         return
       }
 
-      case EditorEventType.DrawEnd: {
+      case EaselEventType.DrawEnd: {
         this.canvas.toBlob((blob) => {
           if (!blob) return
           this.undoStack.push(blob)
@@ -55,7 +55,7 @@ export default class EditorEventObserver implements NextObserver<EditorEvent> {
         return
       }
 
-      case EditorEventType.Undo: {
+      case EaselEventType.Undo: {
         const undo = this.undoStack.pop()
         if (undo) {
           this.redoStack.push(undo)
@@ -64,7 +64,7 @@ export default class EditorEventObserver implements NextObserver<EditorEvent> {
         return
       }
 
-      case EditorEventType.Redo: {
+      case EaselEventType.Redo: {
         const redo = this.redoStack.pop()
         if (redo) {
           this.undoStack.push(redo)

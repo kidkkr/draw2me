@@ -1,21 +1,21 @@
 import produce from 'immer'
-import EditorAction from './EditorAction'
-import EditorActionType from './EditorActionType'
-import EditorState from './EditorState'
+import EaselAction from './EaselAction'
+import EaselActionType from './EaselActionType'
+import EaselState from './EaselState'
 
-const editorStateReducer = produce((draft: EditorState, action: EditorAction) => {
+const easelStateReducer = produce((draft: EaselState, action: EaselAction) => {
   switch (action.type) {
-    case EditorActionType.MouseDown:
+    case EaselActionType.MouseDown:
       draft.isDrawing = true
       return
 
-    case EditorActionType.Undo:
-    case EditorActionType.Redo:
-    case EditorActionType.MouseUp:
+    case EaselActionType.Undo:
+    case EaselActionType.Redo:
+    case EaselActionType.MouseUp:
       draft.isDrawing = false
       return
 
-    case EditorActionType.SetStroke:
+    case EaselActionType.SetStroke:
       draft.stroke = action.stroke
       return
 
@@ -24,4 +24,4 @@ const editorStateReducer = produce((draft: EditorState, action: EditorAction) =>
   }
 })
 
-export default editorStateReducer
+export default easelStateReducer

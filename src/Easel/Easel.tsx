@@ -3,31 +3,31 @@ import { Observer } from 'rxjs'
 import Canvas from './Canvas'
 import CanvasEvent from './CanvasEvent'
 import CanvasEventObserver from './CanvasEventObserver'
-import EditorActionType from './EditorActionType'
-import EditorController from './EditorController'
+import EaselActionType from './EaselActionType'
+import EaselController from './EaselController'
 
-interface EditorProps {
+interface EaselProps {
   canvasWidth?: number
   canvasHeight?: number
 }
 
 const COLORS = ['black', 'red', 'green', 'blue']
 
-const Editor = ({
+const Easel = ({
   canvasWidth = 350,
   canvasHeight = 250,
-}: EditorProps) => {
-  const controller = useMemo(() => new EditorController(), [
-    // /***** FOR DEBUG ONLY *****/ EditorController 
+}: EaselProps) => {
+  const controller = useMemo(() => new EaselController(), [
+    // /***** FOR DEBUG ONLY *****/ EaselController 
   ])
 
-  // Disptach EditorActions from CanvasEvent
+  // Disptach EaselActions from CanvasEvent
   const canvasEventObserver = useMemo<Observer<CanvasEvent>>(() =>
     new CanvasEventObserver(controller), [controller])
 
   const createHandleColorButtonClick = useCallback((color: string) => () => {
     controller.dispatch({
-      type: EditorActionType.SetStroke,
+      type: EaselActionType.SetStroke,
       stroke: color,
     })
   }, [controller])
@@ -52,17 +52,17 @@ const Editor = ({
         {colorButtons}
       </div>
       <div>
-        <button onClick={() => controller.dispatch({ type: EditorActionType.Undo })}>Undo</button>
-        <button onClick={() => controller.dispatch({ type: EditorActionType.Redo })}>Redo</button>
+        <button onClick={() => controller.dispatch({ type: EaselActionType.Undo })}>Undo</button>
+        <button onClick={() => controller.dispatch({ type: EaselActionType.Redo })}>Redo</button>
       </div>
       <Canvas
         width={canvasWidth}
         height={canvasHeight}
         canvasEventObserver={canvasEventObserver}
-        editorEvent$={controller.editorEvent$}
+        easelEvent$={controller.easelEvent$}
       />
     </div>
   )
 }
 
-export default Editor
+export default Easel

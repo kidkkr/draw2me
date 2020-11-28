@@ -1,8 +1,8 @@
-import EditorActionType from './EditorActionType'
+import EaselActionType from './EaselActionType'
 
-interface BaseAction<T extends EditorActionType> { type: T }
+interface BaseAction<T extends EaselActionType> { type: T }
 
-interface BaseMouseAction<T extends EditorActionType> extends BaseAction<T> {
+interface BaseMouseAction<T extends EaselActionType> extends BaseAction<T> {
   x: number,
   y: number,
   /** derivative x */
@@ -11,25 +11,25 @@ interface BaseMouseAction<T extends EditorActionType> extends BaseAction<T> {
   dy: number,
 }
 
-interface MouseMoveEditorAction extends BaseMouseAction<EditorActionType.MouseMove> {}
+interface MouseMoveEaselAction extends BaseMouseAction<EaselActionType.MouseMove> {}
 
-interface MouseDownEditorAction extends BaseMouseAction<EditorActionType.MouseDown> {}
+interface MouseDownEaselAction extends BaseMouseAction<EaselActionType.MouseDown> {}
 
-interface MouseUpEditorAction extends BaseMouseAction<EditorActionType.MouseUp> {}
+interface MouseUpEaselAction extends BaseMouseAction<EaselActionType.MouseUp> {}
 
-interface SetColorEditorAction extends BaseAction<EditorActionType.SetStroke> {
+interface SetColorEaselAction extends BaseAction<EaselActionType.SetStroke> {
   stroke: string
 }
 
-interface UndoEditorAction extends BaseAction<EditorActionType.Undo> {}
-interface RedoEditorAction extends BaseAction<EditorActionType.Redo> {}
+interface UndoEaselAction extends BaseAction<EaselActionType.Undo> {}
+interface RedoEaselAction extends BaseAction<EaselActionType.Redo> {}
 
-type EditorAction =
-  MouseMoveEditorAction |
-  MouseDownEditorAction |
-  MouseUpEditorAction |
-  SetColorEditorAction |
-  UndoEditorAction |
-  RedoEditorAction
+type EaselAction =
+  MouseMoveEaselAction |
+  MouseDownEaselAction |
+  MouseUpEaselAction |
+  SetColorEaselAction |
+  UndoEaselAction |
+  RedoEaselAction
 
-export default EditorAction
+export default EaselAction

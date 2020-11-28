@@ -1,14 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Editor from './Editor';
+import Easel from './Easel';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <Editor
+        <Easel
           canvasWidth={350}
           canvasHeight={250}
         />

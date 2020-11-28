@@ -1,27 +1,27 @@
-import EditorEventType from './EditorEventType'
+import EaselEventType from './EaselEventType'
 
-interface BaseEvent<T extends EditorEventType> { type: T }
+interface BaseEvent<T extends EaselEventType> { type: T }
 
-interface DrawEditorEvent extends BaseEvent<EditorEventType.Draw> {
-  type: EditorEventType.Draw,
+interface DrawEaselEvent extends BaseEvent<EaselEventType.Draw> {
+  type: EaselEventType.Draw,
   path: string,
   stroke: string,
 }
-interface DrawEndEditorEvent extends BaseEvent<EditorEventType.DrawEnd> {}
+interface DrawEndEaselEvent extends BaseEvent<EaselEventType.DrawEnd> {}
 
-interface RedoEditorEvent extends BaseEvent<EditorEventType.Redo> {}
+interface RedoEaselEvent extends BaseEvent<EaselEventType.Redo> {}
 
-interface UndoEditorEvent extends BaseEvent<EditorEventType.Undo> {}
+interface UndoEaselEvent extends BaseEvent<EaselEventType.Undo> {}
 
 /**
- * EditorEvent emitted from EditorController to handle canvas component.
+ * EaselEvent emitted from EaselController to handle canvas component.
  * These canvases can be either local or not (via network).
- * So the values of EditorEvent should be primative.
+ * So the values of EaselEvent should be primative.
  */
-type EditorEvent =
-  DrawEditorEvent |
-  DrawEndEditorEvent |
-  RedoEditorEvent |
-  UndoEditorEvent
+type EaselEvent =
+  DrawEaselEvent |
+  DrawEndEaselEvent |
+  RedoEaselEvent |
+  UndoEaselEvent
 
-export default EditorEvent
+export default EaselEvent

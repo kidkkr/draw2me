@@ -1,31 +1,31 @@
-import EditorAction from './EditorAction'
-import EditorActionType from './EditorActionType'
-import EditorEvent from './EditorEvent'
-import EditorEventType from './EditorEventType'
-import EditorState from './EditorState'
+import EaselAction from './EaselAction'
+import EaselActionType from './EaselActionType'
+import EaselEvent from './EaselEvent'
+import EaselEventType from './EaselEventType'
+import EaselState from './EaselState'
 
-const editorEventReducer = (state: EditorState, action: EditorAction): EditorEvent | undefined => {
+const easelEventReducer = (state: EaselState, action: EaselAction): EaselEvent | undefined => {
   switch (action.type) {
-    case EditorActionType.MouseMove: {
+    case EaselActionType.MouseMove: {
       if (!state.isDrawing) return
       const { x, y, dx, dy } = action
       const path = `M ${x} ${y} L ${x + dx} ${y + dy}`
       return {
-        type: EditorEventType.Draw,
+        type: EaselEventType.Draw,
         stroke: state.stroke,
         path,
       }
     }
 
-    case EditorActionType.MouseUp:
+    case EaselActionType.MouseUp:
       if (!state.isDrawing) return
-      return { type: EditorEventType.DrawEnd }
+      return { type: EaselEventType.DrawEnd }
     
-    case EditorActionType.Undo:
-      return { type: EditorEventType.Undo }
+    case EaselActionType.Undo:
+      return { type: EaselEventType.Undo }
 
-    case EditorActionType.Redo:
-      return { type: EditorEventType.Redo }
+    case EaselActionType.Redo:
+      return { type: EaselEventType.Redo }
 
     default:
       return
@@ -33,4 +33,4 @@ const editorEventReducer = (state: EditorState, action: EditorAction): EditorEve
 
 }
 
-export default editorEventReducer
+export default easelEventReducer

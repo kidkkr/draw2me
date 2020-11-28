@@ -1,6 +1,6 @@
-interface EditorState {
+interface EaselState {
   isDrawing: boolean
   stroke: string
 }
 
-export default EditorState
+export default EaselState

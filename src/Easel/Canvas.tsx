@@ -2,17 +2,17 @@ import React, { useEffect, useRef } from 'react'
 import { Observable, Observer } from 'rxjs'
 import CanvasEvent from './CanvasEvent'
 import CanvasEventObservable from './CanvasEventObservable'
-import EditorEvent from './EditorEvent'
-import EditorEventObserver from './EditorEventObserver'
+import EaselEvent from './EaselEvent'
+import EaselEventObserver from './EaselEventObserver'
 
 interface CanvasProps {
   width: number
   height: number
   canvasEventObserver?: Observer<CanvasEvent> 
-  editorEvent$?: Observable<EditorEvent>
+  easelEvent$?: Observable<EaselEvent>
 }
 
-const Canvas = ({ width, height, canvasEventObserver, editorEvent$ }: CanvasProps) => {
+const Canvas = ({ width, height, canvasEventObserver, easelEvent$ }: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -26,16 +26,16 @@ const Canvas = ({ width, height, canvasEventObserver, editorEvent$ }: CanvasProp
       return canvasEvent$.subscribe(canvasEventObserver)
     })()
 
-    // Subscribe events from editorEvent$ and draw or do something
-    const editorEventSubscription = (() => {
-      if (!editorEvent$) return
-      const editorEventObserver = new EditorEventObserver(canvas)
-      return editorEvent$.subscribe(editorEventObserver)
+    // Subscribe events from easelEvent$ and draw or do something
+    const easelEventSubscription = (() => {
+      if (!easelEvent$) return
+      const easelEventObserver = new EaselEventObserver(canvas)
+      return easelEvent$.subscribe(easelEventObserver)
     })()
 
     return () => {
       canvasEventSubscription?.unsubscribe()
-      editorEventSubscription?.unsubscribe()
+      easelEventSubscription?.unsubscribe()
     }
   }, [])
 

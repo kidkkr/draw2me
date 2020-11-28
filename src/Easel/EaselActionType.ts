@@ -1,4 +1,4 @@
-enum EditorActionType {
+enum EaselActionType {
   MouseDown = 'MouseDown',
   MouseMove = 'MouseMove', 
   MouseUp = 'MouseUp',
@@ -7,4 +7,4 @@ enum EditorActionType {
   Redo = 'Redo',
 }
 
-export default EditorActionType
+export default EaselActionType

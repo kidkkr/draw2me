@@ -1,24 +1,24 @@
 import { Observer } from 'rxjs'
 import CanvasEvent from './CanvasEvent'
-import EditorActionType from './EditorActionType'
-import EditorController from './EditorController'
+import EaselActionType from './EaselActionType'
+import EaselController from './EaselController'
 
 /**
- * Observe CanvasEvent and dispatch converted EditorEvent to EditorController
+ * Observe CanvasEvent and dispatch converted EaselEvent to EaselController
  */
 export default class CanvasEventObserver implements Observer<CanvasEvent> {
-  controller: EditorController
+  controller: EaselController
 
-  constructor(controller: EditorController) {
+  constructor(controller: EaselController) {
     this.controller = controller
   }
 
   next = (e: CanvasEvent) => {
     const type = (() => {
       switch (e.type) {
-        case 'mousemove': return EditorActionType.MouseMove
-        case 'mouseup': return EditorActionType.MouseUp
-        case 'mousedown': return EditorActionType.MouseDown
+        case 'mousemove': return EaselActionType.MouseMove
+        case 'mouseup': return EaselActionType.MouseUp
+        case 'mousedown': return EaselActionType.MouseDown
         default: return
       }
     })()

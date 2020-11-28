@@ -1,24 +1,24 @@
 import { Subject } from 'rxjs'
-import EditorAction from './EditorAction'
-import EditorEvent from './EditorEvent'
-import EditorState from './EditorState'
-import editorEventReducer from './editorEventReducer'
-import editorReducer from './editorStateReducer'
+import EaselAction from './EaselAction'
+import EaselEvent from './EaselEvent'
+import EaselState from './EaselState'
+import easelEventReducer from './easelEventReducer'
+import easelReducer from './easelStateReducer'
 
-const initialState: EditorState = {
+const initialState: EaselState = {
     isDrawing: false,
     stroke: '#000',
   }
 
-class EditorController {
-  private state: EditorState = initialState
+class EaselController {
+  private state: EaselState = initialState
 
-  public state$: Subject<EditorState>
-  public editorEvent$: Subject<EditorEvent>
+  public state$: Subject<EaselState>
+  public easelEvent$: Subject<EaselEvent>
 
   constructor() {
-    this.state$ = new Subject<EditorState>()
-    this.editorEvent$ = new Subject<EditorEvent>()
+    this.state$ = new Subject<EaselState>()
+    this.easelEvent$ = new Subject<EaselEvent>()
     this.initialize()
   }
 
@@ -26,20 +26,20 @@ class EditorController {
     this.state$.next(initialState)
   }
 
-  public dispatch = (action: EditorAction) => {
-    const nextState = editorReducer(this.state, action)
+  public dispatch = (action: EaselAction) => {
+    const nextState = easelReducer(this.state, action)
     // Can It combine multiple CanvasData? (i. e. Continuos line drawing action)
-    const nextEditorEvent = editorEventReducer(this.state, action)
+    const nextEaselEvent = easelEventReducer(this.state, action)
 
     if (nextState !== this.state) {
       this.state$.next(nextState)
       this.state = nextState
     }
 
-    if (nextEditorEvent) {
-      this.editorEvent$.next(nextEditorEvent)
+    if (nextEaselEvent) {
+      this.easelEvent$.next(nextEaselEvent)
     }
   }
 }
 
-export default EditorController
+export default EaselController
