@@ -44,6 +44,7 @@ export default class EaselEventObserver implements NextObserver<EaselEvent> {
         context.globalCompositeOperation = 'source-over'
         context.beginPath()
         context.strokeStyle = e.stroke
+        context.lineWidth = e.strokeWidth
         context.stroke(path)
         context.restore()
         return
@@ -54,6 +55,7 @@ export default class EaselEventObserver implements NextObserver<EaselEvent> {
         context.save()
         context.globalCompositeOperation = 'destination-out'
         context.beginPath()
+        context.lineWidth = e.strokeWidth
         context.stroke(path)
         context.restore()
         return

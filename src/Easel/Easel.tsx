@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Observer } from 'rxjs'
 import Canvas from './Canvas'
 import CanvasEvent from './CanvasEvent'
@@ -14,6 +14,7 @@ interface EaselProps {
 
 const COLORS = ['black', 'red', 'green', 'blue']
 const TOOLS = Object.values(EaselTool)
+const STROKE_WIDTHS = [1, 2, 4, 8, 16]
 
 const Easel = ({
   canvasWidth = 350,
@@ -65,12 +66,46 @@ const Easel = ({
       </button>
     ), [createHandleToolButtonClick])
 
+  const createHandleWidthButtonClick = useCallback((strokeWidth: number) => () => {
+    controller.dispatch({
+      type: EaselActionType.SetStroke,
+      strokeWidth,
+    })
+  }, [controller])
+
+  const widthButtons = useMemo(() => 
+    STROKE_WIDTHS.map((strokeWidth) =>
+      <button
+        key={strokeWidth}
+        onClick={createHandleWidthButtonClick(strokeWidth)}
+      >
+        <div
+          style={{
+            display: 'inline-block',
+            backgroundColor: '#000',
+            width: strokeWidth,
+            height: strokeWidth,
+            borderRadius: '50%',
+          }}
+        />
+      </button>
+    ), [createHandleWidthButtonClick])
+  
+  const [debug, setDebug] = useState({})
+
+  useEffect(() => {
+    const subscription = controller.state$.subscribe(setDebug)
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [setDebug, controller])
+
   return (
     <div>
-      <div>
-        {colorButtons}
-        {toolButtons}
-      </div>
+      <div>{JSON.stringify(debug)}</div>
+      <div>{colorButtons}</div>
+      <div>{toolButtons}</div>
+      <div>{widthButtons}</div>
       <div>
         <button onClick={() => controller.dispatch({ type: EaselActionType.Undo })}>Undo</button>
         <button onClick={() => controller.dispatch({ type: EaselActionType.Redo })}>Redo</button>
