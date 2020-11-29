@@ -10,6 +10,7 @@ const initialState: EaselState = {
     isDrawing: false,
     stroke: '#000',
     tool: EaselTool.Pen,
+    strokeWidth: 1,
   }
 
 class EaselController {

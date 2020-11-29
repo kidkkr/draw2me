@@ -10,6 +10,7 @@ describe('easelEventReducer', () => {
     isDrawing: false,
     stroke: '#000',
     tool: EaselTool.Pen,
+    strokeWidth: 1,
   }
 
   test('Should return undefined for invalid action', () => {
@@ -32,7 +33,12 @@ describe('easelEventReducer', () => {
     })
 
     test('if it is drawing with pen, should return Draw event with path', () => {
-      const state = Object.assign({}, initialState, { isDrawing: true, tool: EaselTool.Pen })
+      const state = Object.assign({}, initialState, {
+        isDrawing: true,
+        tool: EaselTool.Pen,
+        stroke: '#eee',
+        strokeWidth: 7,
+      })
       const action: EaselAction = {
         type: EaselActionType.MouseMove,
         x: 13,
@@ -42,14 +48,19 @@ describe('easelEventReducer', () => {
       }
       const expected = {
         type: EaselEventType.Draw,
-        stroke: '#000',
+        stroke: '#eee',
+        strokeWidth: 7,
         path: `M 13 31 L 14 33`,
       }
       expect(easelEventReducer(state, action)).toEqual(expected)
     })
 
     test('if it is drawing with eraser, should return Draw event with path', () => {
-      const state = Object.assign({}, initialState, { isDrawing: true, tool: EaselTool.Eraser })
+      const state = Object.assign({}, initialState, {
+        isDrawing: true,
+        tool: EaselTool.Eraser,
+        strokeWidth: 7,
+      })
       const action: EaselAction = {
         type: EaselActionType.MouseMove,
         x: 13,
@@ -59,6 +70,7 @@ describe('easelEventReducer', () => {
       }
       const expected = {
         type: EaselEventType.Erase,
+        strokeWidth: 7,
         path: `M 13 31 L 14 33`,
       }
       expect(easelEventReducer(state, action)).toEqual(expected)

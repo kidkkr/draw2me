@@ -9,6 +9,7 @@ describe('easelStateReducer', () => {
     isDrawing: false,
     stroke: '#000',
     tool: EaselTool.Pen,
+    strokeWidth: 1,
   }
 
   test('should return strictly equal state for invalid action', () => {
@@ -55,7 +56,7 @@ describe('easelStateReducer', () => {
 
   describe('SetStroke Action', () => {
     test('should set stroke', () => {
-      const state = Object.assign({}, initialState, { stroke: '#bbb' })
+      const state = Object.assign({}, initialState, { stroke: '#bbb', strokeWidth: 7 })
       const action: EaselAction = {
         type: EaselActionType.SetStroke,
         stroke: '#eee',
@@ -63,6 +64,19 @@ describe('easelStateReducer', () => {
       const expected: EaselState = {
         ...state,
         stroke: '#eee',
+      }
+      expect(easelStateReducer(state, action)).toEqual(expected)
+    })
+
+    test('should set stroke width', () => {
+      const state = Object.assign({}, initialState, { stroke: '#bbb', strokeWidth: 7 })
+      const action: EaselAction = {
+        type: EaselActionType.SetStroke,
+        strokeWidth: 11,
+      }
+      const expected: EaselState = {
+        ...state,
+        strokeWidth: 11,
       }
       expect(easelStateReducer(state, action)).toEqual(expected)
     })

@@ -19,7 +19,8 @@ interface MouseDownEaselAction extends BaseMouseAction<EaselActionType.MouseDown
 interface MouseUpEaselAction extends BaseMouseAction<EaselActionType.MouseUp> {}
 
 interface SetStrokeEaselAction extends BaseAction<EaselActionType.SetStroke> {
-  stroke: string
+  stroke?: string
+  strokeWidth?: number
 }
 
 interface SetToolEaselAction extends BaseAction<EaselActionType.SetTool> {

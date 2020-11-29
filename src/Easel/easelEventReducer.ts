@@ -17,6 +17,7 @@ const easelEventReducer = (state: EaselState, action: EaselAction): EaselEvent |
         return {
           type: EaselEventType.Draw,
           stroke: state.stroke,
+          strokeWidth: state.strokeWidth,
           path,
         }
       }
@@ -24,6 +25,7 @@ const easelEventReducer = (state: EaselState, action: EaselAction): EaselEvent |
         return {
           type: EaselEventType.Erase,
           path,
+          strokeWidth: state.strokeWidth,
         }
       }
 
