@@ -5,6 +5,7 @@ import CanvasEvent from './CanvasEvent'
 import CanvasEventObserver from './CanvasEventObserver'
 import EaselActionType from './EaselActionType'
 import EaselController from './EaselController'
+import EaselTool from './EaselTool'
 
 interface EaselProps {
   canvasWidth?: number
@@ -12,6 +13,7 @@ interface EaselProps {
 }
 
 const COLORS = ['black', 'red', 'green', 'blue']
+const TOOLS = Object.values(EaselTool)
 
 const Easel = ({
   canvasWidth = 350,
@@ -45,11 +47,29 @@ const Easel = ({
         onClick={createHandleColorButtonClick(color)}
       />
     ), [createHandleColorButtonClick])
+  
+  const createHandleToolButtonClick = useCallback((tool: EaselTool) => () => {
+    controller.dispatch({
+      type: EaselActionType.SetTool,
+      tool,
+    })
+  }, [controller])
+
+  const toolButtons = useMemo(() =>
+    TOOLS.map((tool) => 
+      <button
+        key={tool}
+        onClick={createHandleToolButtonClick(tool)}
+      >
+        {tool}
+      </button>
+    ), [createHandleToolButtonClick])
 
   return (
     <div>
       <div>
         {colorButtons}
+        {toolButtons}
       </div>
       <div>
         <button onClick={() => controller.dispatch({ type: EaselActionType.Undo })}>Undo</button>

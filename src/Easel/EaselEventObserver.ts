@@ -40,9 +40,22 @@ export default class EaselEventObserver implements NextObserver<EaselEvent> {
     switch (e.type) {
       case EaselEventType.Draw: {
         const path = new Path2D(e.path)
+        context.save()
+        context.globalCompositeOperation = 'source-over'
         context.beginPath()
         context.strokeStyle = e.stroke
         context.stroke(path)
+        context.restore()
+        return
+      }
+
+      case EaselEventType.Erase: {
+        const path = new Path2D(e.path)
+        context.save()
+        context.globalCompositeOperation = 'destination-out'
+        context.beginPath()
+        context.stroke(path)
+        context.restore()
         return
       }
 
