@@ -12,6 +12,11 @@ interface CanvasProps {
   easelEvent$?: Observable<EaselEvent>
 }
 
+const style = {
+ background: '#fff',
+ borderRadius: '20px',
+}
+
 const Canvas = ({ width, height, canvasEventObserver, easelEvent$ }: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -43,7 +48,7 @@ const Canvas = ({ width, height, canvasEventObserver, easelEvent$ }: CanvasProps
     <canvas
       width={width}
       height={height}
-      style={{ background: '#fff', borderRadius: '20px' }}
+      style={style}
       ref={canvasRef}
     />
   )

@@ -4,10 +4,12 @@ import EaselEvent from './EaselEvent'
 import EaselState from './EaselState'
 import easelEventReducer from './easelEventReducer'
 import easelReducer from './easelStateReducer'
+import EaselTool from './EaselTool'
 
 const initialState: EaselState = {
     isDrawing: false,
     stroke: '#000',
+    tool: EaselTool.Pen,
   }
 
 class EaselController {

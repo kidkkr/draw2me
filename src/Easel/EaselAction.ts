@@ -1,4 +1,5 @@
 import EaselActionType from './EaselActionType'
+import EaselTool from './EaselTool'
 
 interface BaseAction<T extends EaselActionType> { type: T }
 
@@ -17,8 +18,12 @@ interface MouseDownEaselAction extends BaseMouseAction<EaselActionType.MouseDown
 
 interface MouseUpEaselAction extends BaseMouseAction<EaselActionType.MouseUp> {}
 
-interface SetColorEaselAction extends BaseAction<EaselActionType.SetStroke> {
+interface SetStrokeEaselAction extends BaseAction<EaselActionType.SetStroke> {
   stroke: string
+}
+
+interface SetToolEaselAction extends BaseAction<EaselActionType.SetTool> {
+  tool: EaselTool
 }
 
 interface UndoEaselAction extends BaseAction<EaselActionType.Undo> {}
@@ -28,7 +33,8 @@ type EaselAction =
   MouseMoveEaselAction |
   MouseDownEaselAction |
   MouseUpEaselAction |
-  SetColorEaselAction |
+  SetStrokeEaselAction |
+  SetToolEaselAction |
   UndoEaselAction |
   RedoEaselAction
 

@@ -3,11 +3,15 @@ import EaselEventType from './EaselEventType'
 interface BaseEvent<T extends EaselEventType> { type: T }
 
 interface DrawEaselEvent extends BaseEvent<EaselEventType.Draw> {
-  type: EaselEventType.Draw,
   path: string,
   stroke: string,
 }
+
 interface DrawEndEaselEvent extends BaseEvent<EaselEventType.DrawEnd> {}
+
+interface EraseEaselEvent extends BaseEvent<EaselEventType.Erase> {
+  path: string,
+}
 
 interface RedoEaselEvent extends BaseEvent<EaselEventType.Redo> {}
 
@@ -21,6 +25,7 @@ interface UndoEaselEvent extends BaseEvent<EaselEventType.Undo> {}
 type EaselEvent =
   DrawEaselEvent |
   DrawEndEaselEvent |
+  EraseEaselEvent |
   RedoEaselEvent |
   UndoEaselEvent
 
