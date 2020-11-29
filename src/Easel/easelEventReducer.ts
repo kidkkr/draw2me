@@ -3,18 +3,31 @@ import EaselActionType from './EaselActionType'
 import EaselEvent from './EaselEvent'
 import EaselEventType from './EaselEventType'
 import EaselState from './EaselState'
+import EaselTool from './EaselTool'
 
 const easelEventReducer = (state: EaselState, action: EaselAction): EaselEvent | undefined => {
   switch (action.type) {
     case EaselActionType.MouseMove: {
       if (!state.isDrawing) return
+
       const { x, y, dx, dy } = action
       const path = `M ${x} ${y} L ${x + dx} ${y + dy}`
-      return {
-        type: EaselEventType.Draw,
-        stroke: state.stroke,
-        path,
+
+      if (state.tool === EaselTool.Pen) {
+        return {
+          type: EaselEventType.Draw,
+          stroke: state.stroke,
+          path,
+        }
       }
+      if (state.tool === EaselTool.Eraser) {
+        return {
+          type: EaselEventType.Erase,
+          path,
+        }
+      }
+
+      return
     }
 
     case EaselActionType.MouseUp:

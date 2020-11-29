@@ -1,13 +1,14 @@
 import EaselAction from './EaselAction'
 import EaselActionType from './EaselActionType'
-import EaselEventType from './EaselEventType'
 import EaselState from './EaselState'
 import easelStateReducer from './easelStateReducer'
+import EaselTool from './EaselTool'
 
 describe('easelStateReducer', () => {
   const initialState: EaselState = {
     isDrawing: false,
     stroke: '#000',
+    tool: EaselTool.Pen,
   }
 
   test('should return strictly equal state for invalid action', () => {
@@ -27,8 +28,8 @@ describe('easelStateReducer', () => {
         dy: 2,
       }
       const expected: EaselState = {
+        ...state,
         isDrawing: true,
-        stroke: '#000',
       }
       expect(easelStateReducer(state, action)).toEqual(expected)
     })
@@ -45,8 +46,8 @@ describe('easelStateReducer', () => {
         dy: 2,
       }
       const expected: EaselState = {
+        ...state,
         isDrawing: false,
-        stroke: '#000',
       }
       expect(easelStateReducer(state, action)).toEqual(expected)
     })
@@ -60,8 +61,23 @@ describe('easelStateReducer', () => {
         stroke: '#eee',
       }
       const expected: EaselState = {
-        isDrawing: false,
+        ...state,
         stroke: '#eee',
+      }
+      expect(easelStateReducer(state, action)).toEqual(expected)
+    })
+  })
+
+  describe('SetTool Action', () => {
+    test('should set tool', () => {
+      const state = Object.assign({}, initialState, { tool: EaselTool.Pen })
+      const action: EaselAction = {
+        type: EaselActionType.SetTool,
+        tool: EaselTool.Eraser,
+      }
+      const expected: EaselState = {
+        ...state,
+        tool: EaselTool.Eraser,
       }
       expect(easelStateReducer(state, action)).toEqual(expected)
     })

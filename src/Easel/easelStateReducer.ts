@@ -17,6 +17,10 @@ const easelStateReducer = produce((draft: EaselState, action: EaselAction) => {
       draft.stroke = action.stroke
       return
 
+    case EaselActionType.SetTool:
+      draft.tool = action.tool
+      return
+
     default:
       return
   }
