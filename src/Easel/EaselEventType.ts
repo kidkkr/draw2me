@@ -3,7 +3,8 @@ enum EaselEventType {
   DrawEnd = 'DrawEnd',
   Erase = 'Erase',
   Undo = 'Undo',
-  Redo = 'Redo'
+  Redo = 'Redo',
+  Clear = 'Clear',
 }
 
 export default EaselEventType

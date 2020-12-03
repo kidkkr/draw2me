@@ -19,6 +19,8 @@ interface RedoEaselEvent extends BaseEvent<EaselEventType.Redo> {}
 
 interface UndoEaselEvent extends BaseEvent<EaselEventType.Undo> {}
 
+interface ClearEaselEvent extends BaseEvent<EaselEventType.Clear> {}
+
 /**
  * EaselEvent emitted from EaselController to handle canvas component.
  * These canvases can be either local or not (via network).
@@ -29,6 +31,7 @@ type EaselEvent =
   DrawEndEaselEvent |
   EraseEaselEvent |
   RedoEaselEvent |
-  UndoEaselEvent
+  UndoEaselEvent |
+  ClearEaselEvent
 
 export default EaselEvent
