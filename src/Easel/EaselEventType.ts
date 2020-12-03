@@ -1,4 +1,5 @@
 enum EaselEventType {
+  DrawStart = 'DrawStart',
   Draw = 'Draw',
   DrawEnd = 'DrawEnd',
   Erase = 'Erase',

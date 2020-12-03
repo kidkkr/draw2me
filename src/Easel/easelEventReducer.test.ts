@@ -19,6 +19,24 @@ describe('easelEventReducer', () => {
     expect(easelEventReducer(state, action)).toBeUndefined()
   })
 
+  describe('MouseDown Action', () => {
+    test('should return a draw start event', () => {
+      const state = Object.assign({}, initialState, { isDrawing: false })
+      const action: EaselAction = {
+        type: EaselActionType.MouseDown,
+        x: 13,
+        y: 31,
+        dx: 1,
+        dy: 2,
+      }
+      const expected = {
+        type: EaselEventType.DrawStart,
+        subPath: `M 13 31`,
+      }
+      expect(easelEventReducer(state, action)).toEqual(expected)
+    })
+  })
+
   describe('MouseMove Action', () => {
     test('if it is not drawing, should return undefined', () => {
       const state = Object.assign({}, initialState, { isDrawing: false })
@@ -50,7 +68,7 @@ describe('easelEventReducer', () => {
         type: EaselEventType.Draw,
         stroke: '#eee',
         strokeWidth: 7,
-        path: `M 13 31 L 14 33`,
+        subPath: `L 13 31`,
       }
       expect(easelEventReducer(state, action)).toEqual(expected)
     })
@@ -71,7 +89,7 @@ describe('easelEventReducer', () => {
       const expected = {
         type: EaselEventType.Erase,
         strokeWidth: 7,
-        path: `M 13 31 L 14 33`,
+        subPath: `L 13 31`,
       }
       expect(easelEventReducer(state, action)).toEqual(expected)
     })
@@ -101,6 +119,9 @@ describe('easelEventReducer', () => {
       }
       const expected = {
         type: EaselEventType.DrawEnd,
+        stroke: '#000',
+        strokeWidth: 1,
+        subPath: `L 13 31`,
       }
       expect(easelEventReducer(state, action)).toEqual(expected)
     })

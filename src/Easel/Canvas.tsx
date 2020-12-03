@@ -1,41 +1,61 @@
-import React, { useEffect, useRef } from 'react'
+import React, { CSSProperties, useEffect, useMemo, useRef } from 'react'
 import { Observable, Observer } from 'rxjs'
 import CanvasEvent from './CanvasEvent'
 import CanvasEventObservable from './CanvasEventObservable'
 import EaselEvent from './EaselEvent'
-import EaselEventObserver from './EaselEventObserver'
+import CanvasController from './CanvasController'
 
 interface CanvasProps {
   width: number
   height: number
-  canvasEventObserver?: Observer<CanvasEvent> 
+  canvasEventObserver?: Observer<CanvasEvent>
   easelEvent$?: Observable<EaselEvent>
 }
 
-const style = {
- background: '#fff',
- borderRadius: '20px',
+const baseContainerStyle: CSSProperties = {
+  display: 'inline-block',
+  position: 'relative',
+  background: '#fff',
+  borderRadius: '20px',
+}
+
+const canvasStyle: CSSProperties = {
+  position: 'absolute',
+  left: 0,
+  top: 0,
+  right: 0,
+  bottom: 0,
 }
 
 const Canvas = ({ width, height, canvasEventObserver, easelEvent$ }: CanvasProps) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  // Canvas that draws only after drawing
+  const localCanvasRef = useRef<HTMLCanvasElement>(null)
+  // Canvas that draws temporary while drawing(mouse move)
+  const stageCanvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    if (!canvasRef.current) return
-    const canvas = canvasRef.current
+    if (
+      !containerRef.current ||
+      !localCanvasRef.current ||
+      !stageCanvasRef.current
+    ) return
+    const container = containerRef.current
+    const localCanvas = localCanvasRef.current
+    const stageCanvas = stageCanvasRef.current
 
     // Push mouse events to mouseEventObserver
     const canvasEventSubscription = (() => {
       if (!canvasEventObserver) return
-      const canvasEvent$ = new CanvasEventObservable(canvas)
+      const canvasEvent$ = new CanvasEventObservable(container)
       return canvasEvent$.subscribe(canvasEventObserver)
     })()
 
     // Subscribe events from easelEvent$ and draw or do something
     const easelEventSubscription = (() => {
       if (!easelEvent$) return
-      const easelEventObserver = new EaselEventObserver(canvas)
-      return easelEvent$.subscribe(easelEventObserver)
+      const controller = new CanvasController(localCanvas, stageCanvas)
+      return easelEvent$.subscribe(controller)
     })()
 
     return () => {
@@ -44,13 +64,23 @@ const Canvas = ({ width, height, canvasEventObserver, easelEvent$ }: CanvasProps
     }
   }, [])
 
+  const containerStyle = useMemo(() => ({ 
+    ...baseContainerStyle,
+    width,
+    height,
+  }), [width, height])
+
+  const commonProps = useMemo(() => ({
+    width,
+    height,
+    style: canvasStyle,
+  }), [width, height])
+
   return (
-    <canvas
-      width={width}
-      height={height}
-      style={style}
-      ref={canvasRef}
-    />
+    <div style={containerStyle} ref={containerRef}>
+      <canvas {...commonProps} ref={localCanvasRef} />
+      <canvas {...commonProps} ref={stageCanvasRef} />
+    </div>
   )
 }
 

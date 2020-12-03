@@ -2,21 +2,28 @@ import EaselEventType from './EaselEventType'
 
 interface BaseEvent<T extends EaselEventType> { type: T }
 
+
+/** DrawEvents */
+interface DrawStartEaselEvent extends BaseEvent<EaselEventType.DrawStart> {
+  subPath: string,
+}
 interface DrawEaselEvent extends BaseEvent<EaselEventType.Draw> {
-  path: string,
+  subPath: string,
   stroke: string,
   strokeWidth: number,
 }
-
-interface DrawEndEaselEvent extends BaseEvent<EaselEventType.DrawEnd> {}
-
+interface DrawEndEaselEvent extends BaseEvent<EaselEventType.DrawEnd> {
+  subPath: string,
+  stroke: string,
+  strokeWidth: number,
+}
 interface EraseEaselEvent extends BaseEvent<EaselEventType.Erase> {
-  path: string,
+  subPath: string,
   strokeWidth: number,
 }
 
+/** History Events */
 interface RedoEaselEvent extends BaseEvent<EaselEventType.Redo> {}
-
 interface UndoEaselEvent extends BaseEvent<EaselEventType.Undo> {}
 
 interface ClearEaselEvent extends BaseEvent<EaselEventType.Clear> {}
@@ -27,6 +34,7 @@ interface ClearEaselEvent extends BaseEvent<EaselEventType.Clear> {}
  * So the values of EaselEvent should be primative.
  */
 type EaselEvent =
+  DrawStartEaselEvent |
   DrawEaselEvent |
   DrawEndEaselEvent |
   EraseEaselEvent |
