@@ -17,6 +17,7 @@ const baseContainerStyle: CSSProperties = {
   position: 'relative',
   background: '#fff',
   borderRadius: '20px',
+  border: '3px solid black',
 }
 
 const canvasStyle: CSSProperties = {
