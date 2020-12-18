@@ -1,4 +1,4 @@
-import { asyncScheduler, scheduled, fromEvent, Observable, pairs } from 'rxjs';
+import { asyncScheduler, scheduled, fromEvent, Observable } from 'rxjs';
 import { bufferCount, map, mergeAll } from 'rxjs/operators';
 import CanvasEvent from './CanvasEvent';
 

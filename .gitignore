@@ -1,14 +1,14 @@
 # dependencies
-/node_modules
+node_modules
 
 # testing
 /coverage
 
-# production
-/dist
+# NextJS
+.next
 
-# sqlite
-sqlite.local
+# API
+api/dist
 
 # misc
 .DS_Store
