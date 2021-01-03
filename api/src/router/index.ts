@@ -1,6 +1,9 @@
 import Router from '@koa/router'
-import { usersRouter } from './usersRouter'
+import users from './users'
+import auth from './auth'
 
-export const router = new Router()
+const router = new Router()
+router.use('/users', users.routes(), users.allowedMethods())
+router.use('/auth', auth.routes(), auth.allowedMethods())
 
-router.use('/users', usersRouter.routes(), usersRouter.allowedMethods())
+export default router

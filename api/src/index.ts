@@ -1,30 +1,31 @@
 import Koa from 'koa'
-import { ConnectionOptions, createConnection } from 'typeorm'
+import { createConnection } from 'typeorm'
+import bodyParser from 'koa-bodyparser'
 import 'reflect-metadata'
-import { router } from './router'
+import { PORT } from './constants'
+import ormConfig from './ormConfig'
+import router from './router'
 
-const PORT = process.env.PORT ?? 3001
+async function run() {
+  // Connect DB with TypeORM
+  const connection = await createConnection(ormConfig)
+    .catch((error) => console.log(`TypeORM connection error: ${error}`))
+  if (!connection) { return }
+ 
+  // Create Koa application
+  const app = new Koa()
+  
+  // Koa middlewares
+  app.use(bodyParser())
 
-const typeOrmConfig: ConnectionOptions = {
-  type: 'postgres',
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-  database: process.env.DB_NAME,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  synchronize: true,
-  entities: ['dist/entity/*.js']
+  // Use koa-router
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+  
+  app.listen(PORT)
+
+  console.log(`Koa app is up and running on port ${PORT}`)
+  console.log(connection.entityMetadatas)
 }
 
-createConnection(typeOrmConfig)
-  .then((connection) => {
-    const app = new Koa()
-    app.use(router.routes())
-    app.use(router.allowedMethods())
-    app.listen(PORT)
-    console.log(`Koa app is up and running on port ${PORT}`)
-    console.log(connection.entityMetadatas)
-  })
-  .catch((error) => {
-    console.log(`TypeORM connection error: ${error}`)
-  })
+run()

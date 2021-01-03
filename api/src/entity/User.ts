@@ -12,6 +12,9 @@ export class User extends BaseEntity {
   @Column('varchar')
   name?: string
 
+  @Column('varchar')
+  email?: string
+
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', default: () => 'LOCALTIMESTAMP' })
   createdAt!: string;
 }
