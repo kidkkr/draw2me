@@ -1,5 +1,6 @@
 import { ConnectionOptions } from 'typeorm'
-import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER, PORT } from './constants'
+
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER } from './constants'
 
 const ormConfig: ConnectionOptions = {
   type: 'postgres',

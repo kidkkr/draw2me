@@ -4,11 +4,9 @@ node_modules
 # testing
 /coverage
 
-# NextJS
+# builds
 .next
-
-# API
-api/dist
+/build
 
 # misc
 .vscode

@@ -7,8 +7,11 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": ["dom", "es2017"],
-    "module": "esnext",
+    "lib": [
+      "dom",
+      "es2017"
+    ],
+    "module": "commonjs",
     "moduleResolution": "node",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
@@ -20,14 +23,18 @@
     "target": "es5",
     "baseUrl": ".",
     "paths": {
-      "@lib/*": [
-        "lib/*"
-      ],
       "@components/*": [
         "components/*"
-      ]
+      ],
     },
+    "downlevelIteration": true
   },
-  "exclude": ["node_modules"],
-  "include": ["./**/*.ts", "./**/*.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

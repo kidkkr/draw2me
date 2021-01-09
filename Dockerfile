@@ -2,6 +2,7 @@
 
 FROM node:14.15-slim as test-target
 ENV NODE_ENV=development
+ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -26,13 +27,14 @@ RUN npm prune --production
 
 FROM node:14.15-slim as archive-target
 ENV NODE_ENV=production
+ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
 WORKDIR /usr/src/app
 
 COPY --from=build-target /usr/src/app/node_modules node_modules
-COPY --from=build-target /usr/src/app/dist dist
-COPY --from=build-target /usr/src/app/package.json package.json
+COPY --from=build-target /usr/src/app/build .
 
-EXPOSE 3001
+EXPOSE $PORT
+EXPOSE $POST_WS
 
-CMD ["npm", "start"]
+CMD ["node", "server.js"]

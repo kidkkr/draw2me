@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "./build",
+  },
+  "include": [
+    "./shared/**/*.ts",
+    "./server/**/*.ts",
+    "./server.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
