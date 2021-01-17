@@ -16,3 +16,6 @@ export const DB_PORT = Number(process.env.DB_PORT)
 export const DB_NAME = process.env.DB_NAME
 export const DB_USER = process.env.DB_USER
 export const DB_PASSWORD = process.env.DB_PASSWORD
+
+// AWS environment variables
+export const AWS_S3_BUCKET_DRAW2ME_BOARDS = process.env.AWS_S3_BUCKET_DRAW2ME_BOARDS
