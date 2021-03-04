@@ -1,5 +1,5 @@
 {
-  "name": "draw2me",
+  "name": "imgfly",
   "version": "0.1.0",
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.12.1",
@@ -20,7 +20,6 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "regenerator-runtime": "^0.13.7",
-    "rxjs": "^6.6.3",
     "socket.io": "^3.0.5",
     "socket.io-client": "^3.0.5",
     "typeorm": "^0.2.29",
@@ -29,17 +28,19 @@
   "devDependencies": {
     "@types/jest": "^26.0.15",
     "@types/koa": "^2.11.6",
-    "@types/koa-bodyparser": "^4.3.0",
     "@types/koa__router": "^8.0.3",
+    "@types/koa-bodyparser": "^4.3.0",
     "@types/socket.io-client": "^1.4.34",
     "dotenv": "^8.2.0",
     "jest": "26.6.0",
+    "node-notifier": ">=8.0.1",
+    "prettier": "^2.2.1",
     "ts-jest": "^26.4.4",
     "ts-node": "^9.1.1",
-    "tsconfig-paths": "^3.9.0",
-    "node-notifier": ">=8.0.1"
+    "tsconfig-paths": "^3.9.0"
   },
   "scripts": {
+    "prettier": "prettier",
     "dev": "ts-node -r tsconfig-paths/register server.ts",
     "build": "next build && tsc -p tsconfig.server.json",
     "start": "NODE_ENV=production node build/server.js",

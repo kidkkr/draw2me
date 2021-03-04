@@ -16,7 +16,7 @@ async function runServer() {
   try {
     const connection = await createConnection(ormConfig)
     console.log(`TypeORM initialized: ${connection.name}`)
-  } catch(error) {
+  } catch (error) {
     console.log(`TypeORM connection error: ${error}`)
   }
 
@@ -42,14 +42,14 @@ async function runServer() {
   // Setup socket.io
   const socketServer = createServer(server.callback())
   const io = new Server(socketServer, {
-    maxHttpBufferSize: 1e8
+    maxHttpBufferSize: 1e8,
   })
   io.on('connection', (socket: Socket) => {
     console.log(`${socket.id} has connected`)
+    socket.on('draws', (e) => io.sockets.emit('draws', e))
   })
   socketServer.listen(PORT_WS)
   console.log(`Socket.io is up and running on port ${PORT_WS}`)
-
 }
 
 runServer()
