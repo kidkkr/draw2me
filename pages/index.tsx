@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import io, { Socket } from 'socket.io-client'
-import Canvas, { CanvasEvent, CanvasRef } from '@components/Canvas'
+import { SOCKET_IO } from '../env'
+import Canvas, { CanvasEvent, CanvasRef } from '../components/Canvas'
 
 const TIMEOUT = 100
 
@@ -11,17 +12,16 @@ const IndexPage = () => {
   const canvasRef = useRef<CanvasRef>(null)
 
   useEffect(() => {
-    // FIXME: Replace with constants (next.js runtime dotenv)
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const s = io('http://localhost:3001/')
-    s.on('connect', () => {
-      console.log(`socket connected: ${s.id}`)
-      setSocket(s)
+    const socket = io(SOCKET_IO)
+    socket.on('connect', () => {
+      console.log(`socket connected: ${socket.id}`)
+      setSocket(socket)
     })
-    s.on('draws', canvas.draw)
-    s.open()
+    socket.on('draws', canvas.draw)
+    socket.open()
   }, [setSocket])
 
   const clearBuffer = () => {
