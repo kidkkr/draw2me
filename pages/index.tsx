@@ -51,8 +51,18 @@ const IndexPage = () => {
 
   return (
     <main>
-      <h1>{socket ? `socket.id: ${socket.id}` : 'socket disconnected'}</h1>
-      <Canvas width={350} height={250} onDraw={handleDraw} ref={canvasRef} />
+      <h1>imgfly</h1>
+      <p>{socket ? `socket.id: ${socket.id}` : 'socket disconnected'}</p>
+      <Canvas
+        style={{
+          border: 'solid 2px grey',
+          boxSizing: 'border-box',
+        }}
+        width={350}
+        height={250}
+        onDraw={handleDraw}
+        ref={canvasRef}
+      />
     </main>
   )
 }

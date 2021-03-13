@@ -130,11 +130,18 @@ const Canvas = forwardRef<CanvasRef, CanvasProps>(
       : undefined
 
     return (
-      <div style={{ position: 'relative' }} ref={containerRef}>
+      <div
+        style={{
+          ...style,
+          width,
+          height,
+          position: 'relative',
+        }}
+        ref={containerRef}
+      >
         <canvas
           width={width}
           height={height}
-          style={style}
           onMouseDown={handleMouseEvent}
           onMouseUp={handleMouseEvent}
           onMouseMove={handleMouseEvent}
