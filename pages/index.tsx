@@ -15,7 +15,9 @@ const IndexPage = () => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const socket = io(SOCKET_IO)
+    const socket = io(SOCKET_IO, {
+      secure: true,
+    })
     socket.on('connect', () => {
       console.log(`socket connected: ${socket.id}`)
       setSocket(socket)
