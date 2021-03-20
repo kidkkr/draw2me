@@ -5,6 +5,11 @@ import Canvas, { CanvasEvent, CanvasRef } from '../components/Canvas'
 
 const TIMEOUT = 100
 
+const canvasContainerStyle = {
+  width: 'max-content',
+  border: 'solid 2px grey',
+}
+
 const TestPage = () => {
   const [socket, setSocket] = useState<typeof Socket>()
   const bufferTimerRef = useRef<any>(null)
@@ -54,16 +59,9 @@ const TestPage = () => {
     <main>
       <h1>imgfly</h1>
       <p>{socket ? `socket.id: ${socket.id}` : 'socket disconnected'}</p>
-      <Canvas
-        style={{
-          border: 'solid 2px grey',
-          boxSizing: 'border-box',
-        }}
-        width={350}
-        height={250}
-        onDraw={handleDraw}
-        ref={canvasRef}
-      />
+      <div style={canvasContainerStyle}>
+        <Canvas width={350} height={250} onDraw={handleDraw} ref={canvasRef} />
+      </div>
     </main>
   )
 }

@@ -5,7 +5,7 @@ import React, {
   useRef,
 } from 'react'
 
-type CanvasMouseEvent = React.MouseEvent<HTMLCanvasElement, MouseEvent>
+type CanvasMouseEvent = React.MouseEvent<HTMLElement, MouseEvent>
 
 export type Point = [number, number]
 
@@ -21,13 +21,28 @@ export interface CanvasRef {
 interface CanvasProps {
   width: number
   height: number
-  style?: CSSProperties
   onDraw?: (e: CanvasEvent) => void
 }
 
 interface CanvasState {
   isDrawing: boolean
   prev?: Point
+}
+
+const baseCanvasStyle: CSSProperties = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+}
+
+const canvasStyle: CSSProperties = {
+  ...baseCanvasStyle,
+  zIndex: 1,
+}
+
+const tempCanvasStyle: CSSProperties = {
+  ...baseCanvasStyle,
+  zIndex: 2,
 }
 
 const getPoint = (container: HTMLElement, e: CanvasMouseEvent): Point => [
@@ -55,7 +70,14 @@ const drawCanvas = (
 }
 
 const Canvas = forwardRef<CanvasRef, CanvasProps>(
-  ({ width, height, style, onDraw }, ref) => {
+  ({ width, height, onDraw }, ref) => {
+    const containerStyle: CSSProperties = {
+      width,
+      height,
+      position: 'relative',
+      isolation: 'isolate',
+    }
+    const commonProps = { width, height }
     const containerRef = useRef<HTMLDivElement>(null)
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const tempCanvasRef = useRef<HTMLCanvasElement>(null)
@@ -83,7 +105,7 @@ const Canvas = forwardRef<CanvasRef, CanvasProps>(
       []
     )
 
-    const handleMouseEvent = onDraw
+    const handleCanvasEvent = onDraw
       ? (e: CanvasMouseEvent) => {
           const target = canvasRef.current
           const container = containerRef.current
@@ -131,31 +153,14 @@ const Canvas = forwardRef<CanvasRef, CanvasProps>(
 
     return (
       <div
-        style={{
-          ...style,
-          width,
-          height,
-          position: 'relative',
-        }}
+        style={containerStyle}
+        onMouseDown={handleCanvasEvent}
+        onMouseUp={handleCanvasEvent}
+        onMouseMove={handleCanvasEvent}
         ref={containerRef}
       >
-        <canvas
-          width={width}
-          height={height}
-          onMouseDown={handleMouseEvent}
-          onMouseUp={handleMouseEvent}
-          onMouseMove={handleMouseEvent}
-          ref={canvasRef}
-        />
-        <canvas
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            pointerEvents: 'none',
-          }}
-          ref={tempCanvasRef}
-        />
+        <canvas {...commonProps} style={canvasStyle} ref={canvasRef} />
+        <canvas {...commonProps} style={tempCanvasStyle} ref={tempCanvasRef} />
       </div>
     )
   }
