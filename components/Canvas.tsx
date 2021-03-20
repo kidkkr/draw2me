@@ -83,6 +83,7 @@ const Canvas = forwardRef<CanvasRef, CanvasProps>(
     const tempCanvasRef = useRef<HTMLCanvasElement>(null)
     const stateRef = useRef<CanvasState>({
       isDrawing: false,
+      prev: null,
     })
 
     const draw = drawCanvas.bind(null, canvasRef)
@@ -116,7 +117,10 @@ const Canvas = forwardRef<CanvasRef, CanvasProps>(
           const p = getPoint(container, e)
 
           switch (e.type) {
+            case 'mouseenter':
             case 'mousedown':
+              if (e.buttons === 0 || e.button !== 0) break
+              // else: only main button is pressed
               state.isDrawing = true
               onDraw({
                 lineWidth: 2,
@@ -143,6 +147,11 @@ const Canvas = forwardRef<CanvasRef, CanvasProps>(
               }
               break
 
+            case 'mouseout':
+              state.isDrawing = false
+              state.prev = null
+              break
+
             default:
               break
           }
@@ -154,9 +163,11 @@ const Canvas = forwardRef<CanvasRef, CanvasProps>(
     return (
       <div
         style={containerStyle}
+        onMouseEnter={handleCanvasEvent}
         onMouseDown={handleCanvasEvent}
         onMouseUp={handleCanvasEvent}
         onMouseMove={handleCanvasEvent}
+        onMouseOut={handleCanvasEvent}
         ref={containerRef}
       >
         <canvas {...commonProps} style={canvasStyle} ref={canvasRef} />
