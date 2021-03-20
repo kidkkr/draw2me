@@ -10,7 +10,7 @@ const canvasContainerStyle = {
   border: 'solid 2px grey',
 }
 
-const TestPage = () => {
+const DemoPage = () => {
   const [socket, setSocket] = useState<typeof Socket>()
   const bufferTimerRef = useRef<any>(null)
   const bufferRef = useRef<CanvasEvent[]>([])
@@ -57,7 +57,7 @@ const TestPage = () => {
 
   return (
     <main>
-      <h1>imgfly</h1>
+      <h1>imgf.ly demo</h1>
       <p>{socket ? `socket.id: ${socket.id}` : 'socket disconnected'}</p>
       <div style={canvasContainerStyle}>
         <Canvas width={350} height={250} onDraw={handleDraw} ref={canvasRef} />
@@ -66,4 +66,4 @@ const TestPage = () => {
   )
 }
 
-export default TestPage
+export default DemoPage
