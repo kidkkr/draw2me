@@ -19,7 +19,6 @@ const IndexPage = () => {
       secure: true,
     })
     socket.on('connect', () => {
-      console.log(`socket connected: ${socket.id}`)
       setSocket(socket)
     })
     socket.on('draws', canvas.draw)
